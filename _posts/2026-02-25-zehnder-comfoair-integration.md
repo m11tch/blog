@@ -92,15 +92,15 @@ I also changed the **Analoog 0-10V Methode** to **Proportioneel Debiet**. This a
 ![Zehnder Method Setting]({{ '/assets/images/zehnder_settings_method.png' | relative_url }})
 *Setting the unit to proportional flow mode.*
 
+## The Enclosure (OpenSCAD)
+
+To house the final assembly, I continued refining the previous OpenSCAD design. The benefit of a parametric script meant I could simply expand the dimensions and add cutouts for the new DAC module without starting from scratch.
+
 ![Final Internal Assembly]({{ '/assets/images/zehnder_case_v2_dac.jpg' | relative_url }})
 *Revision 2 of the OpenSCAD case, now housing both the RS485 and the DAC.*
 
 ![Finished Unit]({{ '/assets/images/zehnder_case_v2_lid.jpg' | relative_url }})
 *Closed up and in service.*
-
-## The Enclosure (OpenSCAD)
-
-To house the final assembly, I continued refining the previous OpenSCAD design. The benefit of a parametric script meant I could simply expand the dimensions and add cutouts for the new DAC module without starting from scratch.
 
 ```scad
 // Parameters
