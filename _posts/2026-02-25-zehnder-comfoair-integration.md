@@ -41,6 +41,8 @@ I wanted control, not just data. Unfortunately, it seemed the discovered RS485 r
 
 I found the [DFRobot GP8211S DAC module](https://www.tinytronics.nl/en/communication-and-signals/signal-generators-and-dacs/dfrobot-gravity-gp8211s-dac-module-1-channel-15bit-i2c-0-5v-10v) and connected it to the ESP32.
 
+To make this work the following needs to be appended to the ESPHome config:
+
 ### ESPHome Config
 
 ```yaml
@@ -133,7 +135,7 @@ Here is a clear breakdown of the wiring between the ESP32 Mini D1, the modules, 
 
 ## The Result
 
-I now have access to the sensor data and, more importantly, the ability to ramp up ventilation automatically when we're showering or when CO2 levels rise.
+I now have access to the sensor data and, more importantly, the ability to ramp up ventilation automatically when we're showering or when CO2 levels rise. All that rests is a final cleanup of the cables and maybe dust off the unit :). 
 
 ## Bill of Materials
 
