@@ -1,0 +1,30 @@
+---
+layout: default
+---
+
+<article class="post-content">
+    <header style="text-align: left; padding: 2rem 0;">
+        <div class="post-meta">{{ page.date | date: "%B %-d, %Y" }}</div>
+        <h1>{{ page.title }}</h1>
+    </header>
+
+    <div class="content" style="font-size: 1.1rem; color: var(--text-muted);">
+        {{ content }}
+    </div>
+
+    <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+        <a href="{{ '/' | relative_url }}">&larr; Back to Home</a>
+    </div>
+</article>
+
+<style>
+    .post-content .content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .post-content .content h2,
+    .post-content .content h3 {
+        color: var(--text-color);
+        margin-top: 2.5rem;
+    }
+</style>

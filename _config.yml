@@ -1,0 +1,16 @@
+title: "build.log"
+author: "Mitchell"
+description: "Technical build log."
+baseurl: "/blog" 
+url: "https://m11tch.github.io"
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Custom variables
+design:
+  font: "Outfit"
+  accent_color: "#3b82f6"
