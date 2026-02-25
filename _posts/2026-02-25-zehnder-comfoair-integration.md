@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Zehnder ComfoAir E300 HA Integration"
-date: 2026-02-25 20:00:00 +0000
+date: 2026-02-25 19:00:00 +0000
 description: "A journey from googling to granular control via RS485 and 0-10V."
 ---
 
