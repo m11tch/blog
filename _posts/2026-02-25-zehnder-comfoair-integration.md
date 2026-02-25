@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "Zehnder ComfoAir E300 HA Integration"
-date: 2026-02-23 23:00:00 +0000
+date: 2026-02-25 20:00:00 +0000
 description: "A journey from googling to granular control via RS485 and 0-10V."
 ---
 
-It started with a simple search for Home Assistant integration for my Zehnder ComfoAir E300. I quickly found that most projects were limited to basic 3-way switch overrides. Then I stumbled upon [this thread](https://github.com/wichers/esphome-comfoair/issues/11#issuecomment-3919157398) hinting at a deeper interface.
+It started with a simple search for a Home Assistant integration for my Zehnder ComfoAir E300. I quickly found that most projects were limited to basic 3-way switch overrides. At some point I stumbled upon [this thread](https://github.com/wichers/esphome-comfoair/issues/11#issuecomment-3919157398) hinting at a deeper interface.
 
-At the time, I'd lent out my multimeter, so I couldn't do much investigation. I followed the thread and waited. Two weeks ago, [@CodedCactus](https://github.com/CodedCactus) made progress on an ESPHome component, which was the spark I needed.
+At the time, I'd lent out my multimeter, so I couldn't do much investigation. I followed the thread and waited. Then about two weeks ago, [@CodedCactus](https://github.com/CodedCactus) made progress and started work on an ESPHome component, which was the spark I needed.
 
 ## The Hardware Hunt
 
@@ -20,7 +20,9 @@ Once the module arrived, I did some quick soldering and used a standard network 
 
 ## Discovery and Collaboration
 
-The initial register set was small. Without other scanning tools, I started cloning [@CodedCactus](https://github.com/CodedCactus)'s work to investigate further. I found a minor bug when the outside temperature dropped below zero (which I reported in [PR #1](https://github.com/CodedCactus/zehnder-comfoair/pull/1)) and eventually identified several missing registers while tinkering with the unit's settings ([PR #2](https://github.com/CodedCactus/zehnder-comfoair/pull/2)).
+The initial register set was small. Without other scanning tools, I started by cloning [@CodedCactus](https://github.com/CodedCactus)'s work to investigate further. I found a minor bug when the outside temperature dropped below zero (which I reported in [PR #1](https://github.com/CodedCactus/zehnder-comfoair/pull/1)) and eventually identified several missing registers while tinkering with the unit's settings ([PR #2](https://github.com/CodedCactus/zehnder-comfoair/pull/2)). 
+
+It's been great collaborating on this, especially since [@CodedCactus](https://github.com/CodedCactus) is doing most of the heavy lifting on the ESPHome component—this project definitely wouldn't be where it is without his dedication.
 
 ## The Case (Iteration 1)
 
@@ -80,12 +82,12 @@ number:
 
 ## "Winging it" and Final Calibration
 
-Still without my multimeter, I decided to "wing it" and connect the DAC to the unit. It worked, but asking for 10V only registered as 9.2V on the Zehnder. After digging into the unit's settings, I found the **Analoog 0-10V Max. Instelling** and adjusted it to match the actual output.
+Still without my multimeter, I decided to "wing it" and connect the DAC to the unit. It worked, but setting it to 10V only registered as 9.2V on the Zehnder. After digging into the unit's settings, I found the **Analoog 0-10V Max. Instelling** and adjusted it to match the actual output.
 
 ![Zehnder Max Voltage Setting]({{ '/assets/images/zehnder_settings_max_voltage.png' | relative_url }})
 *Adjusting the maximum voltage setting to calibrate the DAC.*
 
-I also changed the **Analoog 0-10V Methode** to **Proportioneel Debiet**. This is crucial as it allows fine-grained ventilation control based on the input voltage, rather than just mapping to the three standard presets.
+I also changed the **Analoog 0-10V Methode** to **Proportioneel Debiet**. This allows fine-grained ventilation control based on the input voltage, rather than just mapping to the three standard presets.
 
 ![Zehnder Method Setting]({{ '/assets/images/zehnder_settings_method.png' | relative_url }})
 *Setting the unit to proportional flow mode.*
@@ -329,9 +331,36 @@ if (part == "assembly") {
 }
 ```
 
+## Pin Mapping
+
+Here is a clear breakdown of the wiring between the ESP32 Mini D1, the modules, and the Zehnder unit itself.
+
+### ESP32 to Modules
+
+| Component | Pin | ESP32 Pin | Function|
+| :--- | :--- | :--- | :--- |
+| **RS485 to TTL** | VCC | VCC (5V) | Power |
+| | GND | GND | Ground |
+| | RXD | IO25 | Data Receive |
+| | TXD | IO27 | Data Transmit |
+| **GP8211S DAC** | + (VCC) | 3V3 | Power |
+| | - (GND) | GND | Ground |
+| | D (SDA) | IO23 | I2C Data |
+| | C (SCL) | IO22 | I2C Clock |
+
+### Modules to Zehnder Unit
+
+| Module | Terminal | Zehnder Port | Function |
+| :--- | :--- | :--- | :--- |
+| **RS485** | A | C3 - A+ | RS485 Data+ |
+| | B | C3 - B- | RS485 Data- |
+| | GND | C3 - GND | RS485 Ground |
+| **GP8211S DAC** | VOUT | C1 - 0-10V | Control Signal |
+| | GND | C1 - GND | Signal Ground |
+
 ## The Result
 
-I now have a complete view of the sensor data and, more importantly, the ability to ramp up ventilation automatically when we're showering or when CO2 levels rise. A rewarding project that went from a "maybe one day" thread to a fully custom control module.
+I now have access to the sensor data and, more importantly, the ability to ramp up ventilation automatically when we're showering or when CO2 levels rise.
 ## Join the Effort
 
 The work is far from finished. We are still actively mapping more registers to unlock even more data and control possibilities.
