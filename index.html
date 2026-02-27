@@ -3,20 +3,13 @@ layout: default
 ---
 
 <header>
-    <h1>{{ site.title }}</h1>
-    <p style="color: var(--text-muted);">{{ site.description }}</p>
+    <h1>Welcome to m11tch.github.io</h1>
+    <p style="color: var(--text-muted);">This is the personal site and technical build log of Mitchell.</p>
 </header>
 
 <main>
-    {% for post in site.posts %}
-    <article class="post-card" onclick="window.location='{{ post.url | relative_url }}'">
-        <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }}</div>
-        <div class="post-title">
-            <h2>{{ post.title }}</h2>
-        </div>
-        <p style="color: var(--text-muted);">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
-    </article>
-    {% else %}
-    <p style="text-align: center; color: var(--text-muted);">No posts found yet. Check back soon!</p>
-    {% endfor %}
+    <section>
+        <h2>Blog</h2>
+        <p>You can find my technical build log over at the <a href="{{ '/blog/' | relative_url }}">Blog</a> section.</p>
+    </section>
 </main>

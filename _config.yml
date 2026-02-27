@@ -1,8 +1,9 @@
 title: "build.log"
 author: "Mitchell"
 description: "Technical build log."
-baseurl: "/blog" 
+baseurl: "" 
 url: "https://m11tch.github.io"
+permalink: /blog/:year/:month/:day/:title.html
 
 # Build settings
 markdown: kramdown
